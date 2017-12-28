@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MovieBuffModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_Actor">
+          <Key>
+            <PropertyRef Name="ActorId" />
+          </Key>
+          <Property Name="ActorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="Bio" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Movie">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="YearOfRelease" Type="smallint" Nullable="false" />
+          <Property Name="Plot" Type="nvarchar(max)" />
+          <Property Name="ProducerID" Type="int" Nullable="false" />
+          <Property Name="PosterData" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_MovieActorConj">
+          <Key>
+            <PropertyRef Name="MovieId" />
+            <PropertyRef Name="ActorId" />
+          </Key>
+          <Property Name="MovieId" Type="int" Nullable="false" />
+          <Property Name="ActorId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Producer">
+          <Key>
+            <PropertyRef Name="ProducerId" />
+          </Key>
+          <Property Name="ProducerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="Bio" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK__tbl_Movie__Actor__1273C1CD">
+          <End Role="tbl_Actor" Type="Self.tbl_Actor" Multiplicity="1" />
+          <End Role="tbl_MovieActorConj" Type="Self.tbl_MovieActorConj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Actor">
+              <PropertyRef Name="ActorId" />
+            </Principal>
+            <Dependent Role="tbl_MovieActorConj">
+              <PropertyRef Name="ActorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Movie__Movie__117F9D94">
+          <End Role="tbl_Movie" Type="Self.tbl_Movie" Multiplicity="1" />
+          <End Role="tbl_MovieActorConj" Type="Self.tbl_MovieActorConj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Movie">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="tbl_MovieActorConj">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Movie__Produ__0CBAE877">
+          <End Role="tbl_Producer" Type="Self.tbl_Producer" Multiplicity="1" />
+          <End Role="tbl_Movie" Type="Self.tbl_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Producer">
+              <PropertyRef Name="ProducerId" />
+            </Principal>
+            <Dependent Role="tbl_Movie">
+              <PropertyRef Name="ProducerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MovieBuffModelStoreContainer">
+          <EntitySet Name="tbl_Actor" EntityType="Self.tbl_Actor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Movie" EntityType="Self.tbl_Movie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_MovieActorConj" EntityType="Self.tbl_MovieActorConj" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Producer" EntityType="Self.tbl_Producer" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tbl_Movie__Actor__1273C1CD" Association="Self.FK__tbl_Movie__Actor__1273C1CD">
+            <End Role="tbl_Actor" EntitySet="tbl_Actor" />
+            <End Role="tbl_MovieActorConj" EntitySet="tbl_MovieActorConj" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Movie__Movie__117F9D94" Association="Self.FK__tbl_Movie__Movie__117F9D94">
+            <End Role="tbl_Movie" EntitySet="tbl_Movie" />
+            <End Role="tbl_MovieActorConj" EntitySet="tbl_MovieActorConj" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Movie__Produ__0CBAE877" Association="Self.FK__tbl_Movie__Produ__0CBAE877">
+            <End Role="tbl_Producer" EntitySet="tbl_Producer" />
+            <End Role="tbl_Movie" EntitySet="tbl_Movie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MovieBuffModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_Actor">
+          <Key>
+            <PropertyRef Name="ActorId" />
+          </Key>
+          <Property Name="ActorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Movie" Relationship="Self.tbl_MovieActorConj" FromRole="tbl_Actor" ToRole="tbl_Movie" />
+        </EntityType>
+        <EntityType Name="tbl_Movie">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="YearOfRelease" Type="Int16" Nullable="false" />
+          <Property Name="Plot" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProducerID" Type="Int32" Nullable="false" />
+          <Property Name="PosterData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Producer" Relationship="Self.FK__tbl_Movie__Produ__0CBAE877" FromRole="tbl_Movie" ToRole="tbl_Producer" />
+          <NavigationProperty Name="tbl_Actor" Relationship="Self.tbl_MovieActorConj" FromRole="tbl_Movie" ToRole="tbl_Actor" />
+        </EntityType>
+        <EntityType Name="tbl_Producer">
+          <Key>
+            <PropertyRef Name="ProducerId" />
+          </Key>
+          <Property Name="ProducerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Movie" Relationship="Self.FK__tbl_Movie__Produ__0CBAE877" FromRole="tbl_Producer" ToRole="tbl_Movie" />
+        </EntityType>
+        <Association Name="FK__tbl_Movie__Produ__0CBAE877">
+          <End Role="tbl_Producer" Type="Self.tbl_Producer" Multiplicity="1" />
+          <End Role="tbl_Movie" Type="Self.tbl_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Producer">
+              <PropertyRef Name="ProducerId" />
+            </Principal>
+            <Dependent Role="tbl_Movie">
+              <PropertyRef Name="ProducerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tbl_MovieActorConj">
+          <End Role="tbl_Actor" Type="Self.tbl_Actor" Multiplicity="*" />
+          <End Role="tbl_Movie" Type="Self.tbl_Movie" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MovieBuffDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_Actor" EntityType="Self.tbl_Actor" />
+          <EntitySet Name="tbl_Movie" EntityType="Self.tbl_Movie" />
+          <EntitySet Name="tbl_Producer" EntityType="Self.tbl_Producer" />
+          <AssociationSet Name="FK__tbl_Movie__Produ__0CBAE877" Association="Self.FK__tbl_Movie__Produ__0CBAE877">
+            <End Role="tbl_Producer" EntitySet="tbl_Producer" />
+            <End Role="tbl_Movie" EntitySet="tbl_Movie" />
+          </AssociationSet>
+          <AssociationSet Name="tbl_MovieActorConj" Association="Self.tbl_MovieActorConj">
+            <End Role="tbl_Actor" EntitySet="tbl_Actor" />
+            <End Role="tbl_Movie" EntitySet="tbl_Movie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MovieBuffModelStoreContainer" CdmEntityContainer="MovieBuffDBEntities">
+          <EntitySetMapping Name="tbl_Actor">
+            <EntityTypeMapping TypeName="MovieBuffModel.tbl_Actor">
+              <MappingFragment StoreEntitySet="tbl_Actor">
+                <ScalarProperty Name="ActorId" ColumnName="ActorId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Bio" ColumnName="Bio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Movie">
+            <EntityTypeMapping TypeName="MovieBuffModel.tbl_Movie">
+              <MappingFragment StoreEntitySet="tbl_Movie">
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="MovieName" ColumnName="MovieName" />
+                <ScalarProperty Name="YearOfRelease" ColumnName="YearOfRelease" />
+                <ScalarProperty Name="Plot" ColumnName="Plot" />
+                <ScalarProperty Name="ProducerID" ColumnName="ProducerID" />
+                <ScalarProperty Name="PosterData" ColumnName="PosterData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Producer">
+            <EntityTypeMapping TypeName="MovieBuffModel.tbl_Producer">
+              <MappingFragment StoreEntitySet="tbl_Producer">
+                <ScalarProperty Name="ProducerId" ColumnName="ProducerId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Bio" ColumnName="Bio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="tbl_MovieActorConj" TypeName="MovieBuffModel.tbl_MovieActorConj" StoreEntitySet="tbl_MovieActorConj">
+            <EndProperty Name="tbl_Actor">
+              <ScalarProperty Name="ActorId" ColumnName="ActorId" />
+            </EndProperty>
+            <EndProperty Name="tbl_Movie">
+              <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
