@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_MBLayoutPage.cshtml";
+}
+<script src="~/ClientComponents/DashBoard.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnAddNewMovie').show();
+        $('#btnGoHome').hide();
+    });
+</script>
+<h2 style="padding:2%;color:white">Movies</h2>
+
+<div ng-controller="DashBoard" ng-init="GetMovieData()">
+    <div ng-repeat="movie in Movies">
+        <div style="    width: 100%;
+    background-color: #FAED26;
+    color: #46344E;
+    font-size: x-large;
+    padding: 1%;">
+            {{$index+1}}. {{movie.MovieName}}
+        </div>
+        <div>
+            <table style="width:100%;color:white">
+                <tr>
+                    <td style="width:40%">
+                        <img  src="data:image/png;base64,{{movie.ImgSrcString}}" style="width:100%;height:300px"/>
+                    </td>
+                    <td>
+                        <div style="text-align:right;margin-bottom:3%">
+                            <button type="button" ng-show="!movie.EditMode" class="btn btn-info" style="background-color:transparent;border-color:white" ng-click="movie.EditMode=!movie.EditMode">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit
+                            </button>
+                            <button type="button" ng-show="movie.EditMode" class="btn btn-info" style="background-color:transparent;border-color:white;margin-right:1%" ng-click="movie.EditMode=!movie.EditMode; CancelEdit($index)">
+                                <span class="glyphicon glyphicon-remove"></span> Cancel
+                            </button>
+                            <button type="button" ng-show="movie.EditMode" class="btn btn-info" style="background-color:transparent;border-color:white" ng-click="movie.EditMode=!movie.EditMode; SaveMovie($index)">
+                                <span class="glyphicon glyphicon-floppy-save"></span> Save
+                            </button>
+                        </div>
+                        <div class="MovieDesc InfoHeading" style="font-size:larger">
+                            About:
+                        </div>
+                        <div class="MovieDesc" ng-show="!movie.EditMode" style="font-size:larger">
+                            Year of Release: {{movie.YOR}}
+                        </div>
+                        <div class="MovieDesc" ng-show="movie.EditMode" style="font-size:larger">
+                            Year of Release: <input type="text" ng-model="movie.YOR" />
+                        </div>
+                        @*<div class="MovieDesc" ng-show="!movie.EditMode" style="font-size:larger">
+                            producer: {{movie.Producer}}
+                        </div>*@
+                        <div class="MovieDesc"  style="font-size:larger">
+                            producer: <select ng-disabled="!movie.EditMode" style="width:40%" ng-model="movie.ProducerID" ng-options="item.ProducerID as item.ProducerName for item in Producers"></select>
+                        </div>
+                        <div class="MovieDesc InfoHeading" style="font-size:larger">
+                            Actors:
+                        </div>
+                        <div ng-repeat="actor in movie.lstActors">
+                            <div class="MovieDesc" style="font-size:medium">
+                                {{$index+1}}. {{actor}}
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,369 @@
+﻿
+@{
+    ViewBag.Title = "AddNewMovie";
+    Layout = "~/Views/Shared/_MBLayoutPage.cshtml";
+}
+<script src="~/ClientComponents/DashBoard.js"></script>
+@*<link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">*@
+@*<script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>*@
+
+<script>
+    $(document).ready(function () {
+        $("#DOB").datepicker();
+
+        $("#ProducerDOB").datepicker();
+        $('#btnAddNewMovie').hide();
+        $('#btnGoHome').show();
+
+    })
+    function AddActor() {
+
+        var scope = angular.element($('#AddMovie')).scope();
+
+        //scope.AddActor();
+
+        if ($('#Name').val() != "" && $('#DOB').val() != "" && $('#Gender').val() != "") {
+            scope.AddNewActor($('#Name').val(), $('#DOB').val(), $('#Gender').val(), $('#Bio').val());
+        }
+        else {
+            alert("Please provide all required information");
+        }
+    }
+    function AddActorHide() {
+        $('.ActorModel').removeClass('visible');
+    }
+
+    function AddProducer() {
+
+        var scope = angular.element($('#AddMovie')).scope();
+
+        //scope.AddActor();
+
+        if ($('#ProducerName').val() != "" && $('#ProducerDOB').val() != "" && $('#ProducerGender').val() != "") {
+            scope.AddNewProducer($('#ProducerName').val(), $('#ProducerDOB').val(), $('#ProducerGender').val(), $('#ProducerBio').val());
+        }
+        else {
+            alert("Please provide all required information");
+        }
+    }
+    function AddProducerHide() {
+        $('.ProducerModel').removeClass('visible');
+    }
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<style>
+    td {
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+    input, select, textarea {
+        width: 80%;
+    }
+
+
+
+    /*MODAL DIALOG \* ================================== */
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        -webkit-transition: visibility .3s ease-out, opacity .3s ease-out;
+        transition: visibility .3s ease-out, opacity .3s ease-out;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        visibility: hidden;
+        width: 100%;
+        z-index: 999;
+    }
+
+        .overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    .modal-dialog {
+        background-color: #fff;
+        border-radius: 3px;
+        -webkit-box-shadow: 0 0 .5em;
+        box-shadow: 0 0 .5em;
+        margin: 0 auto;
+        max-width: 40em;
+        padding: 1em;
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        -webkit-transition: -webkit-transform .3s ease-out;
+        transition: -webkit-transform .3s ease-out;
+        transition: transform .3s ease-out;
+        transition: transform .3s ease-out, -webkit-transform .3s ease-out;
+        width: 80%;
+    }
+
+        .modal-dialog .title {
+            line-height: 1;
+            margin: 0 0 1em;
+        }
+
+        .modal-dialog .default-button {
+            font-weight: bold;
+        }
+
+        .modal-dialog .footer {
+            margin-top: 1em;
+            text-align: right;
+        }
+
+            .modal-dialog .footer button {
+                background-color: transparent;
+                border: 1px solid #333;
+                border-radius: 3px;
+                display: inline-block;
+                min-width: 5em;
+                padding: .25em 1em;
+                text-align: center;
+                -webkit-transition: background-color .3s ease-out;
+                transition: background-color .3s ease-out;
+            }
+
+                .modal-dialog .footer button:hover {
+                    background-color: #f0f0f0;
+                }
+
+    .visible .modal-dialog {
+        -webkit-transform: translateY(3em);
+        transform: translateY(3em);
+    }
+
+    .footer {
+        background-color: transparent;
+        position: inherit;
+    }
+    /* == MODAL DIALOG ================== */
+
+
+</style>
+<div ng-controller="DashBoard" id="AddMovie" ng-init="GetAddNewMovieData()">
+    <h2 style="padding:2%;color:white">Add new Movie</h2>
+    <div>
+        <table style="width:100%;color: #FAED26;
+    font-size: large;">
+            <tr>
+                <td style="width:40%;text-align:left">
+                    Movie Name*
+                </td>
+                <td style="text-align:right">
+                    <input type="text" ng-model="NewMovie.Name" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:40%;text-align:left">
+                    Year of release*
+                </td>
+                <td style="text-align:right">
+                    <input type="text" onkeypress="return isNumber(event)" ng-model="NewMovie.YOR" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:40%;text-align:left">
+                    Plot
+                </td>
+                <td style="text-align:right">
+                    <textarea ng-model="NewMovie.Plot" placeholder="Enter plot of the Movie"></textarea>
+                </td>
+
+            </tr>
+            <tr>
+                <td style="width:40%;text-align:left">
+                    Producer*
+                </td>
+                <td style="text-align:right">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:30%;text-align:left">
+                                <button type="button" ng-click="ShowDailogProducer()" class="btn btn-info" style="background-color:transparent;border-color:white">
+                                    <span class="glyphicon glyphicon-new-window"></span> Add New
+                                </button>
+                            </td>
+                            <td style="text-align:left">
+                                Select from list <select style="width:100%" ng-model="NewMovie.ProducerID" ng-options="item.ProducerID as item.ProducerName for item in NewMovie.lstProducer"></select>
+
+
+                            </td>
+
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%;color: #FAED26;
+    font-size: large;">
+            <tr>
+                <td style="width:40%;text-align:left;vertical-align:top">
+                    Actors
+                </td>
+                <td style="text-align:right">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:30%;text-align:left">
+                                <button type="button" ng-click="ShowDailog()" class="btn btn-info" style="background-color:transparent;border-color:white">
+                                    <span class="glyphicon glyphicon-new-window"></span> Add New
+                                </button>
+                            </td>
+                            <td style="text-align:left">
+                                Select from list <select style="width:100%" ng-model="NewMovie.ActorName" ng-change="AddActorToList(NewMovie.ActorName)" ng-options="item.ActorName for item in NewMovie.lstActorAll"></select>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div ng-repeat="actor in NewMovie.lstActor">
+                                    <div class="MovieDesc" style="font-size:medium;text-align:left">
+                                        {{$index+1}}. {{actor}} <button style="float:right" class="button button-assertive icon ion-android-delete " ng-click="onActorDelete(actor)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width:40%">
+                    Choose poster image
+                </td>
+                <td>
+                    <form id="PosterForm" style="display:inline-flex" action="../Home/UploadPoster">
+                        <input type="file" style="width:70%" accept="image/x-png,image/gif,image/jpeg" />
+                        <input type="button" value="Upload" class="btn btn-info" ng-click="SubmitUpload()" style="width:30%;background-color:transparent;border-color:white"/>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center"><input style="width:20%" type="button" class="btn btn-primary" ng-click="SaveMovieNewInfo()" value="Add Movie"/></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="dialog-container" class="overlay ActorModel"  style="font-weight:600">
+    <article class="modal-dialog" style="margin-top:12%">
+        <header>
+            <h2 id="modal-dialog-title" class="title">Add new actor</h2>
+        </header>
+        <div id="modal-dialog-content">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:40%">
+                        Name*
+                    </td>
+                    <td style="width:30%">
+                        DOB*
+                    </td>
+                    <td style="width:30%">
+                        Gender*
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:40%">
+                        <input type="text" ng-model="NewActor.Name" id="Name" />
+                    </td>
+                    <td style="width:30%">
+                        <input type="text" id="DOB" ng-model="NewActor.DOB" />
+                    </td>
+                    <td style="width:30%">
+                        <select id="Gender" ng-model="NewActor.Gender"><option>Male</option><option>Female</option></select>
+                    </td>
+                </tr>
+
+            </table>
+            <table style="width:100%">
+                <tr>
+                    <td style="width:20%">
+                        Biograpghy
+                    </td>
+                    <td>
+                        <textarea id="Bio" ng-model="NewActor.Bio"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <footer class="footer">
+            @*<button id="modal-dialog-cancel" type="button"></button>
+                <button id="modal-dialog-ok" type="button" class="default-button"></button>*@
+            <div style="text-align:right">
+                <button style="margin-right:1%" onclick="AddActorHide()">Cancel</button><button ng-click="AddActor()" onclick="AddActor()">Add</button>
+
+            </div>
+        </footer>
+
+    </article>
+</div>
+
+<div id="dialog-container" class="overlay ProducerModel" style="font-weight:600">
+    <article class="modal-dialog" style="margin-top:12%">
+        <header>
+            <h2 id="modal-dialog-title" class="title">Add new Producer</h2>
+        </header>
+        <div id="modal-dialog-content">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:40%">
+                        Name*
+                    </td>
+                    <td style="width:30%">
+                        DOB*
+                    </td>
+                    <td style="width:30%">
+                        Gender*
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:40%">
+                        <input type="text" id="ProducerName" />
+                    </td>
+                    <td style="width:30%">
+                        <input type="text" id="ProducerDOB"  />
+                    </td>
+                    <td style="width:30%">
+                        <select id="ProducerGender" ><option>Male</option><option>Female</option></select>
+                    </td>
+                </tr>
+
+            </table>
+            <table style="width:100%">
+                <tr>
+                    <td style="width:20%">
+                        Biograpghy
+                    </td>
+                    <td>
+                        <textarea id="Bio" ng-model="NewActor.Bio"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <footer class="footer">
+            @*<button id="modal-dialog-cancel" type="button"></button>
+                <button id="modal-dialog-ok" type="button" class="default-button"></button>*@
+            <div style="text-align:right">
+                <button style="margin-right:1%" onclick="AddProducerHide()">Cancel</button><button onclick="AddProducer()">Add</button>
+
+            </div>
+        </footer>
+
+    </article>
+</div>
+
